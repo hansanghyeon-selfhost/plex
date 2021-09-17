@@ -1,24 +1,49 @@
 version: '3.7'
 
 services:
-  plex:
+  app:
     env_file:
       - ./.env
     environment:
       - TZ=Asia/Seoul
       - PLEX_CLAIM=$PLEX_CLAIM
-      - ADVERTISE_IP=plex.nas.hyeon.pro
+      - ADVERTISE_IP=$ADVERTISE_IP
       - PUID=0
       - PGID=0
       - VERSION=latest
     # 생설될 컨테이너 이름
-    container_name: SS__plex
-    image: plexinc/pms-docker
-    ports: 
-      - 32400:32400/tcp
+    image: plexinc/pms-docker:1.24.0.4930-ab6e1a058
     # 컨테이너가 사용할 저장 장소
     volumes:
       - /volume1/media:/data
       - ./config:/config
-    restart: unless-stopped
+      - ./Plug-ins:/config/Library/Application Support/Plex Media Server/Plug-ins
+    ports:
+      - 32400:32400/tcp
+      - 32400:32400/udp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
     hostname: 218p
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${HOSTNAME}
+      labels:
+        - traefik.enable=true
+        ## HTTP Routers
+        - traefik.http.routers.plex.entrypoints=websecure
+        - traefik.http.routers.plex.rule=Host(`plex.${DOMAINNAME}`)
+        - traefik.http.routers.plex.tls.certresolver=leresolver
+        - traefik.http.services.plex.loadbalancer.server.port=32400
+
+########################### NETWORKS
+networks:
+  default:
+    external:
+      name: proxy-main

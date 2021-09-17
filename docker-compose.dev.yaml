@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  plex:
+    env_file:
+      - ./.env
+    environment:
+      - TZ=Asia/Seoul
+      - PLEX_CLAIM=$PLEX_CLAIM
+      - ADVERTISE_IP=plex.nas.hyeon.pro
+      - PUID=0
+      - PGID=0
+      - VERSION=latest
+    # 생설될 컨테이너 이름
+    container_name: SS__plex
+    image: plexinc/pms-docker
+    ports: 
+      - 32400:32400/tcp
+    # 컨테이너가 사용할 저장 장소
+    volumes:
+      - /volume1/media:/data
+      - ./config:/config
+    restart: unless-stopped
+    hostname: 218p
