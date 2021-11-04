@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.8"
 
 services:
   app:
@@ -12,10 +12,10 @@ services:
       - PGID=0
       - VERSION=latest
     # 생설될 컨테이너 이름
-    image: plexinc/pms-docker:1.24.0.4930-ab6e1a058
+    image: plexinc/pms-docker:latest
     # 컨테이너가 사용할 저장 장소
     volumes:
-      - /volume1/media:/data
+      - ./media:/data
       - ./config:/config
       - ./Plug-ins:/config/Library/Application Support/Plex Media Server/Plug-ins
     ports:
@@ -29,7 +29,7 @@ services:
       - 32412:32412/udp
       - 32413:32413/udp
       - 32414:32414/udp
-    hostname: 218p
+    hostname: hyeon
     deploy:
       placement:
         constraints:
