@@ -1,4 +1,7 @@
-[plex | 상현에 하루하루](https://hyeon.pro/dev/tag/plex)
+> This has been restored. Manage through media-related self-hosted integrations
+> 
+> If you want to see more, [hansanghyun-selfthost/media](https://github.com/hansanghyun-selfthost/media)
+
 ## docker
 
 **main - swarm**
